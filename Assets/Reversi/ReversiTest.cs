@@ -102,21 +102,21 @@ public class ReversiTest : MonoBehaviour
                 if (_pice[x,z].PiceColor == TurnColor)
                 {
                     PiceDir checkDir = new PiceDir(1, 0);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor,0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor,0);
                     checkDir = new PiceDir(0, 1);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
                     checkDir = new PiceDir(1, 1);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
                     checkDir = new PiceDir(1, -1);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
                     checkDir = new PiceDir(-1, 1);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
                     checkDir = new PiceDir(-1, -1);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
                     checkDir = new PiceDir(-1, 0);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
                     checkDir = new PiceDir(0, -1);
-                    TNeighborPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
                 }
             }
         }
@@ -143,27 +143,8 @@ public class ReversiTest : MonoBehaviour
         }
     }
 
-    void CheckNeighborPice(int pointX,int pointZ, PiceDir checkDir ,PiceColor checkColor)
-    {
-        if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
-        {
-            return;
-        }
-        PiceColor piceColor = _pice[pointX, pointZ].PiceColor;
-        if (piceColor == checkColor || _picelData[pointX, pointZ] > 0)
-        {
-            return;
-        }
-        if (piceColor == PiceColor.None)
-        {
-            TNeighborPice(pointX - checkDir.X * 2, pointZ - checkDir.Z * 2, checkDir, checkColor,0);
-        }
-        else
-        {
-            TNeighborPice(pointX - checkDir.X, pointZ - checkDir.Z, checkDir, checkColor, 0);
-        }
-    }
-    void TNeighborPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor,int count)
+    
+    void CheckNeighorPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor,int count)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
         {
@@ -176,7 +157,7 @@ public class ReversiTest : MonoBehaviour
         }
         else if (piceColor != PiceColor.None && piceColor != checkColor)
         {
-            TNeighborPice(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor,1);
+            CheckNeighorPice(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor,1);
         }
     }
     public void ChangeColorNeighorAround(int pointX, int pointZ)
