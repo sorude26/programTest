@@ -81,7 +81,6 @@ public class ReversiTest : MonoBehaviour
     public void OnClickGameStart()
     {
         _myTurn = true;
-        TurnColor = PiceColor.White;
         TouchPointSearch();
     }
     public void TouchPointSearch()
@@ -120,6 +119,24 @@ public class ReversiTest : MonoBehaviour
                 }
             }
         }
+        int white = 0;
+        int black = 0;
+        foreach (var item in _pice)
+        {
+            if (item.PiceColor == PiceColor.None)
+            {
+                return;
+            }
+            if (item.PiceColor == PiceColor.Black)
+            {
+                black++;
+            }
+            else
+            {
+                white++;
+            }
+        }
+        Debug.Log("ゲーム終了、白：" + white + " 黒：" + black);
     }
     void TouchPointSearch0()
     {
@@ -194,12 +211,12 @@ public class ReversiTest : MonoBehaviour
         {
             return true;
         }  
-        bool color = ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, count++);
-        if (color)
+        bool change = ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, count++);
+        if (change)
         {
             _pice[pointX, pointZ].ChangeColor();
         }
-        return color;
+        return change;
     }
     IEnumerable<ReversiPice> CheckNeighborPice(int posX,int posZ)
     {
