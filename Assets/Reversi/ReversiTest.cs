@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReversiTest : MonoBehaviour
 {
     [SerializeField] ReversiPice _prefab;
+    [SerializeField] Image _turnColor;
     const int _size = 8;
     ReversiPice[,] _pice = new ReversiPice[_size, _size];
-    bool _myTurn;
+    bool _myTurn = default;
     int[,] _picelData = new int[_size, _size];
     public PiceColor TurnColor { get; private set; } = PiceColor.None;
     public struct PiceDir
     {
         public int X { get; private set; }
         public int Z { get; private set; }
-        public PiceDir(int x,int z)
+        public PiceDir(int x, int z)
         {
             if (x > 0)
             {
@@ -42,7 +44,7 @@ public class ReversiTest : MonoBehaviour
             }
         }
     }
-   
+
     List<List<ReversiPice>> reversiPices = new List<List<ReversiPice>>();
     void Start()
     {
@@ -85,43 +87,51 @@ public class ReversiTest : MonoBehaviour
     }
     public void OnClickGameStart()
     {
-        _myTurn = true;
         TouchPointSearch();
     }
     public void TouchPointSearch()
     {
-        if (TurnColor == PiceColor.Black)
+        if (TurnColor == PiceColor.White)
         {
-            TurnColor = PiceColor.White;
+            _myTurn = false;
+            _turnColor.color = Color.black;
+            TurnColor = PiceColor.Black;
         }
         else
         {
-            TurnColor = PiceColor.Black;
+            _myTurn = true;
+            _turnColor.color = Color.white;
+            TurnColor = PiceColor.White;
         }
+        int count = 0;
         for (int z = 0; z < _size; z++)
         {
             for (int x = 0; x < _size; x++)
             {
-                if (_pice[x,z].PiceColor == TurnColor)
+                if (_pice[x, z].PiceColor == TurnColor)
                 {
                     PiceDir checkDir = new PiceDir(1, 0);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor,0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                     checkDir = new PiceDir(0, 1);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                     checkDir = new PiceDir(1, 1);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                     checkDir = new PiceDir(1, -1);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                     checkDir = new PiceDir(-1, 1);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                     checkDir = new PiceDir(-1, -1);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                     checkDir = new PiceDir(-1, 0);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                     checkDir = new PiceDir(0, -1);
-                    CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0);
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
                 }
             }
+        }
+        if (count == 0)
+        {
+            Debug.Log("ƒpƒX");
         }
         int white = 0;
         int black = 0;
@@ -164,41 +174,24 @@ public class ReversiTest : MonoBehaviour
         }
     }
 
-    
-    void CheckNeighorPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor,int count)
+
+    bool CheckNeighorPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
         {
-            return;
+            return false;
         }
-        PiceColor piceColor = _pice[pointX, pointZ].PiceColor;        
+        PiceColor piceColor = _pice[pointX, pointZ].PiceColor;
         if (piceColor == PiceColor.None && count > 0)
         {
             _pice[pointX, pointZ].TouchOK();
+            return true;
         }
         else if (piceColor != PiceColor.None && piceColor != checkColor)
         {
-            CheckNeighorPice(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor,1);
+            return CheckNeighorPice(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, 1);
         }
-    }
-    public void ChangeColorNeighorAround(int pointX, int pointZ)
-    {
-        PiceDir checkDir = new PiceDir(1, 0);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor,0);
-        checkDir = new PiceDir(0, 1);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
-        checkDir = new PiceDir(1, 1);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
-        checkDir = new PiceDir(1, -1);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
-        checkDir = new PiceDir(-1, 1);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
-        checkDir = new PiceDir(-1, -1);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
-        checkDir = new PiceDir(-1, 0);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
-        checkDir = new PiceDir(0, -1);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        return false;
     }
     public void ChangeColorNeighorAround2(int pointX, int pointZ)
     {
@@ -207,7 +200,7 @@ public class ReversiTest : MonoBehaviour
             item.Clear();
         }
         PiceDir checkDir = new PiceDir(1, 0);
-        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0,reversiPices[0]);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[0]);
         checkDir = new PiceDir(0, 1);
         ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[1]);
         checkDir = new PiceDir(1, 1);
@@ -224,29 +217,7 @@ public class ReversiTest : MonoBehaviour
         ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[7]);
         StartCoroutine(ChangeColor());
     }
-    bool ChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor ,int count)
-    {
-        if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
-        {
-            return false;
-        }
-        PiceColor piceColor = _pice[pointX, pointZ].PiceColor;
-        if (piceColor == PiceColor.None || count >= _size)
-        {
-            return false;
-        }        
-        if (piceColor == checkColor)
-        {
-            return true;
-        }  
-        bool change = ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, count++);
-        if (change)
-        {
-            _pice[pointX, pointZ].ChangeColor();
-        }
-        return change;
-    }
-    bool ChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count ,List<ReversiPice> pices)
+    bool ChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count, List<ReversiPice> pices)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
         {
@@ -282,7 +253,7 @@ public class ReversiTest : MonoBehaviour
                     if (reversiPices[k].Count > i)
                     {
                         reversiPices[k][i].ChangeColor();
-                        w++;
+                        w = 1;
                     }
                 }
             }
@@ -291,7 +262,7 @@ public class ReversiTest : MonoBehaviour
         }
         TouchPointSearch();
     }
-    IEnumerable<ReversiPice> CheckNeighborPice(int posX,int posZ)
+    IEnumerable<ReversiPice> CheckNeighborPice(int posX, int posZ)
     {
         int top = posZ + 1;
         int bottom = posZ - 1;
