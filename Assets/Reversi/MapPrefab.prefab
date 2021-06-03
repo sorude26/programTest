@@ -345,7 +345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8307075659124753641
 Transform:
   m_ObjectHideFlags: 0
@@ -575,6 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pice: {fileID: 8307075659124753640}
   _touchPanel: {fileID: 7205024571371376881}
+  _changeSpeed: 3
 --- !u!65 &8888147676738189870
 BoxCollider:
   m_ObjectHideFlags: 0

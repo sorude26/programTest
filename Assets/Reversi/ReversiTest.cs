@@ -42,9 +42,14 @@ public class ReversiTest : MonoBehaviour
             }
         }
     }
-
+   
+    List<List<ReversiPice>> reversiPices = new List<List<ReversiPice>>();
     void Start()
     {
+        for (int i = 0; i < _size; i++)
+        {
+            reversiPices.Add(new List<ReversiPice>());
+        }
         for (int z = 0; z < _size; z++)
         {
             for (int x = 0; x < _size; x++)
@@ -93,7 +98,6 @@ public class ReversiTest : MonoBehaviour
         {
             TurnColor = PiceColor.Black;
         }
-        PiceDataReset();
         for (int z = 0; z < _size; z++)
         {
             for (int x = 0; x < _size; x++)
@@ -196,6 +200,30 @@ public class ReversiTest : MonoBehaviour
         checkDir = new PiceDir(0, -1);
         ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
     }
+    public void ChangeColorNeighorAround2(int pointX, int pointZ)
+    {
+        foreach (var item in reversiPices)
+        {
+            item.Clear();
+        }
+        PiceDir checkDir = new PiceDir(1, 0);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0,reversiPices[0]);
+        checkDir = new PiceDir(0, 1);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[1]);
+        checkDir = new PiceDir(1, 1);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[2]);
+        checkDir = new PiceDir(1, -1);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[3]);
+        checkDir = new PiceDir(-1, 1);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[4]);
+        checkDir = new PiceDir(-1, -1);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[5]);
+        checkDir = new PiceDir(-1, 0);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[6]);
+        checkDir = new PiceDir(0, -1);
+        ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[7]);
+        StartCoroutine(ChangeColor());
+    }
     bool ChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor ,int count)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
@@ -217,6 +245,51 @@ public class ReversiTest : MonoBehaviour
             _pice[pointX, pointZ].ChangeColor();
         }
         return change;
+    }
+    bool ChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count ,List<ReversiPice> pices)
+    {
+        if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
+        {
+            return false;
+        }
+        PiceColor piceColor = _pice[pointX, pointZ].PiceColor;
+        if (piceColor == PiceColor.None || count > _size)
+        {
+            return false;
+        }
+        if (piceColor == checkColor)
+        {
+            return true;
+        }
+        bool change = ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, count++, pices);
+        if (change)
+        {
+            pices.Add(_pice[pointX, pointZ]);
+        }
+        return change;
+    }
+    public IEnumerator ChangeColor()
+    {
+        PiceDataReset();
+        int i = _size - 1;
+        while (i >= 0)
+        {
+            float w = 0;
+            for (int k = 0; k < _size; k++)
+            {
+                if (reversiPices[k].Count > 0)
+                {
+                    if (reversiPices[k].Count > i)
+                    {
+                        reversiPices[k][i].ChangeColor();
+                        w++;
+                    }
+                }
+            }
+            i--;
+            yield return new WaitForSeconds(w * 0.5f);
+        }
+        TouchPointSearch();
     }
     IEnumerable<ReversiPice> CheckNeighborPice(int posX,int posZ)
     {
