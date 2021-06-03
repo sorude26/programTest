@@ -7,10 +7,21 @@ public class ReversiTest : MonoBehaviour
 {
     [SerializeField] ReversiPice _prefab;
     [SerializeField] Image _turnColor;
+    [SerializeField] GameObject _messgaePanel;
+    [SerializeField] GameObject _startButton;
+    [SerializeField] Text _messgaeText;
+    public bool AI = false;
+    private bool _aiCheckEnd = false;
+    private bool _changeEnd = false;
+    private float _aiWaitTime = 1f;
+    private float _aiTimer = 0;
     const int _size = 8;
     ReversiPice[,] _pice = new ReversiPice[_size, _size];
     bool _myTurn = default;
+    bool _gameEnd = false;
+    bool _pass = false;
     int[,] _picelData = new int[_size, _size];
+    List<Vector3Int> _aIList = new List<Vector3Int>();
     public PiceColor TurnColor { get; private set; } = PiceColor.None;
     public struct PiceDir
     {
@@ -48,6 +59,8 @@ public class ReversiTest : MonoBehaviour
     List<List<ReversiPice>> reversiPices = new List<List<ReversiPice>>();
     void Start()
     {
+        _messgaeText.text = "";
+        _messgaePanel.SetActive(false);
         for (int i = 0; i < _size; i++)
         {
             reversiPices.Add(new List<ReversiPice>());
@@ -74,6 +87,24 @@ public class ReversiTest : MonoBehaviour
             }
         }
     }
+    private void Update()
+    {
+        if (_myTurn || _gameEnd)
+        {
+            return;
+        }
+        if (AI && !_myTurn && _changeEnd && _aiCheckEnd)
+        {
+            _aiTimer -= Time.deltaTime;
+            if (_aiTimer <= 0)
+            {
+                _pice[_aIList[0].x, _aIList[0].y].AITouch();
+                _myTurn = true;
+                _aiCheckEnd = false;
+                _changeEnd = false;
+            }
+        }
+    }
     void PiceDataReset()
     {
         for (int z = 0; z < _size; z++)
@@ -87,13 +118,23 @@ public class ReversiTest : MonoBehaviour
     }
     public void OnClickGameStart()
     {
+        _startButton.SetActive(false);
         TouchPointSearch();
     }
     public void TouchPointSearch()
     {
+        if (_gameEnd)
+        {
+            return;
+        }
         if (TurnColor == PiceColor.White)
         {
             _myTurn = false;
+            if (AI)
+            {
+                _aIList.Clear(); 
+                _aiTimer = _aiWaitTime;
+            }
             _turnColor.color = Color.black;
             TurnColor = PiceColor.Black;
         }
@@ -111,34 +152,48 @@ public class ReversiTest : MonoBehaviour
                 if (_pice[x, z].PiceColor == TurnColor)
                 {
                     PiceDir checkDir = new PiceDir(1, 0);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
                     checkDir = new PiceDir(0, 1);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
                     checkDir = new PiceDir(1, 1);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
                     checkDir = new PiceDir(1, -1);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
                     checkDir = new PiceDir(-1, 1);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
                     checkDir = new PiceDir(-1, -1);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
                     checkDir = new PiceDir(-1, 0);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
                     checkDir = new PiceDir(0, -1);
-                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0)) { count++; }
+                    if (CheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }                    
                 }
             }
-        }
-        if (count == 0)
-        {
-            Debug.Log("パス");
-        }
+        }       
         int white = 0;
         int black = 0;
         foreach (var item in _pice)
         {
             if (item.PiceColor == PiceColor.None)
             {
+                if (count == 0)
+                {
+                    if (_pass)
+                    {
+                        continue;
+                    }
+                    _pass = true;
+                    Debug.Log("パス");
+                    StartCoroutine(PassMessgae());
+                }
+                else
+                {
+                    _pass = false;
+                    if (AI && !_myTurn)
+                    {
+                        _aiCheckEnd = true;
+                    }
+                }
                 return;
             }
             if (item.PiceColor == PiceColor.Black)
@@ -151,6 +206,11 @@ public class ReversiTest : MonoBehaviour
             }
         }
         Debug.Log("ゲーム終了、白：" + white + " 黒：" + black);
+        _messgaeText.text = "ゲーム終了、白：" + white + " 黒：" + black;
+        _messgaeText.fontSize = 120;
+        _messgaeText.color = Color.white;
+        _messgaePanel.SetActive(true);
+        _gameEnd = true;
     }
     void TouchPointSearch0()
     {
@@ -175,23 +235,31 @@ public class ReversiTest : MonoBehaviour
     }
 
 
-    bool CheckNeighorPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
+    int CheckNeighorPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
         {
-            return false;
+            return 0;
         }
         PiceColor piceColor = _pice[pointX, pointZ].PiceColor;
         if (piceColor == PiceColor.None && count > 0)
         {
-            _pice[pointX, pointZ].TouchOK();
-            return true;
+            if (!AI || _myTurn)
+            {
+                _pice[pointX, pointZ].TouchOK();
+            }
+            else
+            {
+               Vector3Int aiPos = new Vector3Int(pointX, pointZ, count);
+               _aIList.Add(aiPos);
+            }
+            return count;
         }
         else if (piceColor != PiceColor.None && piceColor != checkColor)
         {
             return CheckNeighorPice(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, 1);
         }
-        return false;
+        return 0;
     }
     public void ChangeColorNeighorAround2(int pointX, int pointZ)
     {
@@ -259,6 +327,52 @@ public class ReversiTest : MonoBehaviour
             }
             i--;
             yield return new WaitForSeconds(w * 0.5f);
+        }
+        TouchPointSearch();
+        _changeEnd = true;
+    }
+    private IEnumerator PassMessgae()
+    {
+        _messgaeText.text = TurnColor.ToString() + "Pass!";
+        _messgaeText.color = Color.clear;
+        bool pass = true;
+        bool clear = false;
+        float clearScale = 0;
+        int x = 3;
+        while (pass)
+        {
+            if (!clear)
+            {
+                clearScale += x * Time.deltaTime;
+                if (clearScale >= 1)
+                {
+                    clear = true;
+                    clearScale = 5;
+                    _messgaeText.color = Color.white;
+                }
+                else
+                {
+                    _messgaeText.color = new Color(1, 1, 1, clearScale);
+                }
+            }
+            else
+            {
+                clearScale -= x * Time.deltaTime;
+                if (clearScale <= 1)
+                {
+                    if (clearScale <= 0)
+                    {
+                        clearScale = 0;
+                        pass = false;
+                    }
+                    _messgaeText.color = new Color(1, 1, 1, clearScale);
+                }
+                else
+                {
+                    _messgaeText.color = Color.white;
+                }
+            }
+            yield return new WaitForEndOfFrame();
         }
         TouchPointSearch();
     }

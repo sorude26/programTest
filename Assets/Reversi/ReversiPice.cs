@@ -91,6 +91,12 @@ public class ReversiPice : MonoBehaviour
         ChangeColor();
         //_instanse.TouchPointSearch();
     }
+    public void AITouch()
+    {
+        TouchMode = false;
+        _instanse.ChangeColorNeighorAround2(_posX, _posZ);
+        ChangeColor();
+    }
     public string GetPos()
     {
         return _posX.ToString() + " " + _posZ.ToString();
