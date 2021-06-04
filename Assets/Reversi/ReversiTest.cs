@@ -13,7 +13,7 @@ public class ReversiTest : MonoBehaviour
     public bool AI = false;
     private bool _aiCheckEnd = false;
     private bool _changeEnd = false;
-    private float _aiWaitTime = 1f;
+    private float _aiWaitTime = 0.5f;
     private float _aiTimer = 0;
     const int _size = 8;
     ReversiPice[,] _pice = new ReversiPice[_size, _size];
@@ -98,7 +98,8 @@ public class ReversiTest : MonoBehaviour
             _aiTimer -= Time.deltaTime;
             if (_aiTimer <= 0)
             {
-                _pice[_aIList[0].x, _aIList[0].y].AITouch();
+                int r = Random.Range(0, _aIList.Count);
+                _pice[_aIList[r].x, _aIList[r].y].AITouch();
                 _myTurn = true;
                 _aiCheckEnd = false;
                 _changeEnd = false;
