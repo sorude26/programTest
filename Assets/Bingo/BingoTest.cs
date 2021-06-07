@@ -77,7 +77,7 @@ public class BingoTest : MonoBehaviour
             var panel = Instantiate(_panelPrefab);
             panel.SetData2(_bingoData[_nowBingoNumber]);
             panel.transform.SetParent(_bingoDataPanel);
-            Debug.Log(_bingoData[_nowBingoNumber] + "Ç™Ç≈ÇΩ");
+            //Debug.Log(_bingoData[_nowBingoNumber] + "Ç™Ç≈ÇΩ");
             CheckBingo(_bingoData[_nowBingoNumber]);
             _nowBingoNumber++;
         }
@@ -86,7 +86,7 @@ public class BingoTest : MonoBehaviour
             var panel = Instantiate(_panelPrefab);
             panel.SetData2(_bingoData[_nowBingoNumber]);
             panel.transform.SetParent(_bingoDataPanel);
-            Debug.Log(_bingoData[_nowBingoNumber] + "Ç™Ç≈ÇΩ");
+            //Debug.Log(_bingoData[_nowBingoNumber] + "Ç™Ç≈ÇΩ");
             CheckBingo(_bingoData[_nowBingoNumber]);
             _nowBingoNumber++;
         }
@@ -161,7 +161,8 @@ public class BingoTest : MonoBehaviour
             if (x == _bingoSize)
             {
                 //Debug.Log("BingoÅI");
-                _messgaeBing.SetActive(true);                
+                _messgaeBing.SetActive(true);
+                return true;
             }
             else if(x == _bingoSize - 1)
             {
@@ -218,5 +219,38 @@ public class BingoTest : MonoBehaviour
             }
         }
         return count;
+    }
+    public void OnClickRetry()
+    {
+        text.text = "";
+        _messgaeBing.SetActive(false);
+        foreach (var item in _reachBars)
+        {
+            item.SetActive(false);
+        }
+        for (int i = 0; i < _bingoMaxNumber; i++)
+        {
+            _bingoData[i] = i + 1;
+        }
+        for (int b = 0; b < _bingoMaxNumber; b++)
+        {
+            int r = Random.Range(0, _bingoMaxNumber);
+            int c = _bingoData[b];
+            _bingoData[b] = _bingoData[r];
+            _bingoData[r] = c;
+        }
+        for (int i = 0; i < _bingoSize; i++)
+        {
+            for (int k = 0; k < _bingoSize; k++)
+            {
+                if ((_bingoSize + 1) / 2 == i + 1 && (_bingoSize + 1) / 2 == k + 1)
+                {
+                    continue;
+                }
+                _bingoPanels[i * _bingoSize + k].SetData(_bingoData[i * _bingoSize + k]);
+            }
+        }
+        _nowBingoNumber = 0;
+        EventManager.Restart();
     }
 }

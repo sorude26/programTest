@@ -41,7 +41,6 @@ public class BomTest : MonoBehaviour
     }
     void SetMine(int stratPos)
     {
-        DataReset();
         for (int a = 0; a < _bomNumber; a++)
         {
             BomSet(stratPos);
@@ -237,5 +236,10 @@ public class BomTest : MonoBehaviour
         _clear.SetActive(false);
         _bom.SetActive(false);
         _restartButton.SetActive(false);
+        DataReset();
+        for (int v = 0; v < _size * _size; v++)
+        {
+            _cells[v].CellState = CellState.None;
+        }
     }
 }

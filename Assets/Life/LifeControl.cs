@@ -294,4 +294,8 @@ public class LifeControl : MonoBehaviour
     {
         _data[x, y] = true;
     }
+    public void PointDead(int x, int y)
+    {
+        _data[x, y] = false;
+    }
 }
