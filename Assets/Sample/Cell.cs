@@ -17,11 +17,14 @@ public enum CellState
     Mine = -1,
 }
 
-public class Cell : MonoBehaviour
+public class Cell : EventSubscriber
 {
     [SerializeField] private Text _cellText = null;
     [SerializeField] private CellState _cellState = CellState.None;
     [SerializeField] GameObject _cellButton;
+    [SerializeField] GameObject _cellGuard;
+    [SerializeField] Image[] _images;
+    private bool _guard = false;
     public int SellID { get; set; }
     public bool Check { get; private set; }
     public CellState CellState
@@ -44,6 +47,7 @@ public class Cell : MonoBehaviour
         {
             return;
         }
+        _images[0].color = Color.clear;
         switch (_cellState)
         {
             case CellState.None:
@@ -83,15 +87,31 @@ public class Cell : MonoBehaviour
                 break;
             case CellState.Mine:
                 _cellText.text = "X";
+                _images[0].color = Color.white;
                 _cellText.color = Color.black;
                 break;
             default:
                 break;
         }
     }
-    public void OnClickThis()
+    public void OpenThis()
     {
         if (BomTest.Instance.ExplosionBom)
+        {
+            return;
+        }
+        _cellButton.SetActive(false);
+        if (_cellState == CellState.None && !Check)
+        {
+            Check = true;
+            BomTest.Instance.AroundCheck(SellID);
+        }
+        Check = true;
+        BomTest.Instance.ClearCheck();
+    }
+    public void OnClickThis()
+    {
+        if (BomTest.Instance.ExplosionBom || _guard)
         {
             return;
         }
@@ -104,8 +124,44 @@ public class Cell : MonoBehaviour
         else if (_cellState == CellState.Mine)
         {
             BomTest.Instance.Explosion();
+            _images[1].color = Color.white;
         }
         Check = true;
         BomTest.Instance.ClearCheck();
+    }
+    public void OnClickFlag()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (_guard)
+            {
+                _guard = false;
+                _cellGuard.SetActive(false);
+            }
+            else
+            {
+                _guard = true;
+                _cellGuard.SetActive(true);
+            }
+        }
+    }
+    public override void OnGameEnd()
+    {
+        _cellButton.SetActive(false);
+    }
+    public override void OnGameClear()
+    {
+        if (_cellState == CellState.Mine)
+        {
+            _cellGuard.SetActive(true);
+        }
+    }
+    public override void OnRestart()
+    {
+        Check = false;
+        _guard = false;
+        _cellGuard.SetActive(false);
+        _cellButton.SetActive(true);
+        _images[1].color = Color.clear;
     }
 }

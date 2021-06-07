@@ -11,6 +11,7 @@ public class BomTest : MonoBehaviour
     [SerializeField] int _bomNumber = 8;
     [SerializeField] GameObject _bom;
     [SerializeField] GameObject _clear;
+    [SerializeField] GameObject _restartButton;
     int[] _data;
     Cell[] _cells;
     bool _start;
@@ -21,6 +22,7 @@ public class BomTest : MonoBehaviour
     }
     void Start()
     {
+        _restartButton.SetActive(false);
         Transform canvas = GameObject.Find("Canvas").transform;
         _data = new int[_size * _size];
         _cells = new Cell[_size * _size];
@@ -39,6 +41,7 @@ public class BomTest : MonoBehaviour
     }
     void SetMine(int stratPos)
     {
+        DataReset();
         for (int a = 0; a < _bomNumber; a++)
         {
             BomSet(stratPos);
@@ -55,6 +58,13 @@ public class BomTest : MonoBehaviour
             _cells[v].CellState = (CellState)_data[v];
         }
         AroundCheck(stratPos);
+    }
+    void DataReset()
+    {
+        for (int i = 0; i < _data.Length; i++)
+        {
+            _data[i] = 0;
+        }
     }
     public void BomSet(int startPos)
     {
@@ -183,7 +193,7 @@ public class BomTest : MonoBehaviour
         {
             return;
         }
-        _cells[checkPos].OnClickThis();
+        _cells[checkPos].OpenThis();
         if (_cells[checkPos].CellState == CellState.None)
         {
             AroundCheck(checkPos);
@@ -194,6 +204,8 @@ public class BomTest : MonoBehaviour
     {
         _bom.SetActive(true);
         ExplosionBom = true;
+        EventManager.GameEnd();
+        _restartButton.SetActive(true);
     }
     public void ClearCheck()
     {
@@ -213,6 +225,17 @@ public class BomTest : MonoBehaviour
         {
             ExplosionBom = true;
             _clear.SetActive(true);
+            EventManager.GameClear();
+            _restartButton.SetActive(true);
         }
+    }
+    public void OnClickRestart()
+    {
+        EventManager.Restart();
+        _start = false;
+        ExplosionBom = false;
+        _clear.SetActive(false);
+        _bom.SetActive(false);
+        _restartButton.SetActive(false);
     }
 }
