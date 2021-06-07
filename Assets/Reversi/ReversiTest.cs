@@ -9,6 +9,7 @@ public class ReversiTest : MonoBehaviour
     [SerializeField] Image _turnColor;
     [SerializeField] GameObject _messgaePanel;
     [SerializeField] GameObject _startButton;
+    [SerializeField] GameObject _retryButton;
     [SerializeField] Text _messgaeText;
     public bool AI = false;
     private bool _aiCheckEnd = false;
@@ -61,6 +62,7 @@ public class ReversiTest : MonoBehaviour
     {
         _messgaeText.text = "";
         _messgaePanel.SetActive(false);
+        _retryButton.SetActive(false);
         for (int i = 0; i < _size; i++)
         {
             reversiPices.Add(new List<ReversiPice>());
@@ -211,6 +213,7 @@ public class ReversiTest : MonoBehaviour
         _messgaeText.fontSize = 120;
         _messgaeText.color = Color.white;
         _messgaePanel.SetActive(true);
+        _retryButton.SetActive(true);
         _gameEnd = true;
     }
     void TouchPointSearch0()
@@ -376,6 +379,32 @@ public class ReversiTest : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         TouchPointSearch();
+    }
+    public void OnClickRetry()
+    {
+        EventManager.Restart();
+        for (int z = 0; z < _size; z++)
+        {
+            for (int x = 0; x < _size; x++)
+            {
+                if (z <= _size / 2 && z >= _size / 2 - 1 && x <= _size / 2 && x >= _size / 2 - 1)
+                {
+                    if (x != z)
+                    {
+                        _pice[x, z].ChangeBlack();
+                    }
+                    else
+                    {
+                        _pice[x, z].ChangeWhite();
+                    }
+                }
+            }
+        }
+        _messgaeText.text = "";
+        _messgaePanel.SetActive(false); 
+        _startButton.SetActive(true);
+        _retryButton.SetActive(false);
+        _gameEnd = false;
     }
     IEnumerable<ReversiPice> CheckNeighborPice(int posX, int posZ)
     {

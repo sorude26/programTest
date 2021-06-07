@@ -8,6 +8,7 @@ public class RainbowColor : MonoBehaviour
     [SerializeField] float _colorSpeed = 1f;
     [SerializeField] Image _image;
     [SerializeField] Text _text;
+    [SerializeField] Renderer _renderer;
     [SerializeField] float _a = 0.5f;
     float _r = 1;
     float _g = 0;
@@ -70,6 +71,10 @@ public class RainbowColor : MonoBehaviour
         if (_text)
         {
             _text.color = new Color(_r, _g, _b, _a);
+        }
+        if (_renderer)
+        {
+            _renderer.material.color = new Color(_r, _g, _b, _a);
         }
     }
 }

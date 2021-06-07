@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
+  _colorSpeed: 9
   _image: {fileID: 5313674889881567863}
   _text: {fileID: 0}
   _a: 0.8

@@ -8,7 +8,7 @@ public enum PiceColor
     White = 0,
     Black = 1,
 }
-public class ReversiPice : MonoBehaviour
+public class ReversiPice : EventSubscriber
 {
     [SerializeField] GameObject _pice;
     [SerializeField] GameObject _touchPanel;
@@ -115,14 +115,13 @@ public class ReversiPice : MonoBehaviour
                 _movePos = 1;
                 _startMove = false;
             }
+            _pice.transform.localPosition = new Vector3(0, 0.08f + _movePos, 0);
             if (PiceColor == PiceColor.Black)
             {
-                _pice.transform.localPosition = new Vector3(0, 0.08f + _movePos, 0);
                 _pice.transform.rotation = Quaternion.Euler(0, 0, 90 * _movePos);
             }
             else
             {
-                _pice.transform.localPosition = new Vector3(0, 0.08f + _movePos, 0);
                 _pice.transform.rotation = Quaternion.Euler(0, 0, 180 - 90 * _movePos);
             }
         }
@@ -134,16 +133,21 @@ public class ReversiPice : MonoBehaviour
                 _movePos = 0;
                 _moveNow = false;
             }
+            _pice.transform.localPosition = new Vector3(0, 0.08f + _movePos, 0);
             if (PiceColor == PiceColor.Black)
             {
-                _pice.transform.localPosition = new Vector3(0, 0.08f + _movePos, 0);
                 _pice.transform.rotation = Quaternion.Euler(0, 0, 180 - 90 * _movePos);
             }
             else
             {
-                _pice.transform.localPosition = new Vector3(0, 0.08f + _movePos, 0);
                 _pice.transform.rotation = Quaternion.Euler(0, 0, 90 * _movePos);
             }
         }
+    }
+    public override void OnRestart()
+    {
+        _pice.SetActive(false);
+        PiceColor = PiceColor.None;
+        TouchMode = false;
     }
 }
