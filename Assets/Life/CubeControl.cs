@@ -29,18 +29,7 @@ public class CubeControl : MonoBehaviour
     {
         if (control)
         {
-            if (_life)
-            {
-                control.PointDead(_posX, _posY);
-                _thisCube.SetActive(false);
-                _life = false;
-            }
-            else
-            {
-                control.PointRevival(_posX, _posY);
-                _thisCube.SetActive(true);
-                _life = true;
-            }
+            control.PointAction(_posX, _posY);            
         }
     }
 }

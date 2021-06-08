@@ -9,11 +9,18 @@ public class RainbowColor : MonoBehaviour
     [SerializeField] Image _image;
     [SerializeField] Text _text;
     [SerializeField] Renderer _renderer;
+    [SerializeField] Light _light;
     [SerializeField] float _a = 0.5f;
+    [SerializeField] Vector3Int _startColor = new Vector3Int(1, 0, 0);
     float _r = 1;
     float _g = 0;
     float _b = 0;
-
+    private void Start()
+    {
+        _r = _startColor.x;
+        _g = _startColor.y;
+        _b = _startColor.z;
+    }
     void Update()
     {
         if (_r == 1 && _g < 1 && _b == 0)
@@ -75,6 +82,10 @@ public class RainbowColor : MonoBehaviour
         if (_renderer)
         {
             _renderer.material.color = new Color(_r, _g, _b, _a);
+        }
+        if (_light)
+        {
+            _light.color = new Color(_r, _g, _b, _a);
         }
     }
 }
