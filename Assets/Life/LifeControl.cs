@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum ButtonState
 {
     Point,
     Glider,
+    Obj1,
+    Obj2,
 }
 public class LifeControl : MonoBehaviour
 {
@@ -19,6 +22,8 @@ public class LifeControl : MonoBehaviour
     int[,] _life;
     [SerializeField] bool _randomMode;
     [SerializeField] string[] _debugCode;
+    [SerializeField] string[] _objBox;
+    [SerializeField] Text _lifeText;
     ButtonState _buttonState = ButtonState.Point;
     void Start()
     {
@@ -88,7 +93,7 @@ public class LifeControl : MonoBehaviour
     }
     void NextStep()
     {
-
+        int count = 0;
         for (int i = 0; i < _sizeY; i++)
         {
             for (int a = 0; a < _sizeX; a++)
@@ -100,9 +105,13 @@ public class LifeControl : MonoBehaviour
         {
             for (int j = 0; j < _sizeX; j++)
             {
-                LifeCheck(j, k);
+                if(LifeCheck(j, k))
+                {
+                    count++;
+                }
             }
         }
+        _lifeText.text = count.ToString();
     }
 
     void CheckAround(int checkPointX, int checkPointY)
@@ -279,12 +288,14 @@ public class LifeControl : MonoBehaviour
         }
         _life[checkPointX, checkPointY] = point;
     }
-    void LifeCheck(int checkPointX, int checkPointY)
+    bool LifeCheck(int checkPointX, int checkPointY)
     {
         if (_life[checkPointX, checkPointY] <= 1 || _life[checkPointX, checkPointY] >= 4)
         {
             _data[checkPointX, checkPointY] = false;
             _cubes[checkPointX, checkPointY].Dead();
+            _life[checkPointX, checkPointY] = 0;
+            return false;
         }
         else
         {
@@ -293,8 +304,9 @@ public class LifeControl : MonoBehaviour
                 _data[checkPointX, checkPointY] = true;
                 _cubes[checkPointX, checkPointY].Life();
             }
+            _life[checkPointX, checkPointY] = 0;
+            return true;
         }
-        _life[checkPointX, checkPointY] = 0;
     }
     public void OnClickReset()
     {
@@ -317,8 +329,25 @@ public class LifeControl : MonoBehaviour
             case 1:
                 _buttonState = ButtonState.Glider;
                 break;
+            case 2:
+                _buttonState = ButtonState.Obj1;
+                break;
+            case 3:
+                _buttonState = ButtonState.Obj2;
+                break;
             default:
                 break;
+        }
+    }
+    public void OnClickRandomStopOrStart()
+    {
+        if (_randomMode)
+        {
+            _randomMode = false;
+        }
+        else
+        {
+            _randomMode = true;
         }
     }
     public void PointAction(int x, int y)
@@ -337,6 +366,12 @@ public class LifeControl : MonoBehaviour
                 break;
             case ButtonState.Glider:
                 PointGlider(x, y);
+                break;
+            case ButtonState.Obj1:
+                PointObj(x, y);
+                break;
+            case ButtonState.Obj2:
+                PointObj(x, y, 1);
                 break;
             default:
                 break;
@@ -398,6 +433,78 @@ public class LifeControl : MonoBehaviour
             {
                 _cubes[right, bottom].Dead();
                 _data[right, bottom] = false;
+            }
+        }
+    }
+    public void PointObj(int x, int y)
+    {
+        int py = 0;
+        int aCount = 0;
+        bool aLength = false;
+        int posX;
+        int posY;       
+        for(int px = 0;px < _objBox[0].Length; px++)
+        {
+            posX = px - py + x - aCount * py;
+            posY = py + y;
+            if (posX >= _sizeX || posY >= _sizeY)
+            {
+                return;
+            }
+            if (_objBox[0][px] == '1')
+            {
+                _cubes[posX, posY].Life();
+                _data[posX, posY] = true;
+            }
+            else if (_objBox[0][px] == '0')
+            {
+                _cubes[posX, posY].Dead();
+                _data[posX, posY] = false;
+            }
+            else
+            {
+                py++;
+                if (!aLength)
+                {
+                    aCount = px;
+                    aLength = true;
+                }
+            }
+        }
+    }
+    public void PointObj(int x, int y, int obj)
+    {
+        int py = 0;
+        int aCount = 0;
+        bool aLength = false;
+        int posX;
+        int posY;
+        for (int px = 0; px < _objBox[obj].Length; px++)
+        {
+            posX = px - py + x - aCount * py;
+            posY = py + y;
+            if (posX >= _sizeX || posY >= _sizeY)
+            {
+                return;
+            }
+            if (_objBox[obj][px] == '1')
+            {
+                _cubes[posX, posY].Life();
+                _data[posX, posY] = true;
+            }
+            else if (_objBox[obj][px] == '0')
+            {
+                _cubes[posX, posY].Dead();
+                _data[posX, posY] = false;
+            }
+            else
+            {
+                py++;
+                if (!aLength)
+                {
+                    aCount = px;
+                    aLength = true;
+                }
             }
         }
     }
