@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: adb8c088a8892b84fbfa67d4ac61f408, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +99,9 @@ MonoBehaviour:
   _image: {fileID: 0}
   _text: {fileID: 0}
   _renderer: {fileID: 8549033093382351468}
+  _light: {fileID: 0}
   _a: 1
+  _startColor: {x: 1, y: 0, z: 0}
 --- !u!1 &8549033094078606623
 GameObject:
   m_ObjectHideFlags: 0

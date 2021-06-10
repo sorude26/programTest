@@ -21,10 +21,11 @@ public class LifeControl : MonoBehaviour
     bool[,] _data;
     int[,] _life;
     [SerializeField] bool _randomMode;
+    [SerializeField] bool _startMode;
     [SerializeField] string[] _debugCode;
     [SerializeField] string[] _objBox;
     [SerializeField] Text _lifeText;
-    ButtonState _buttonState = ButtonState.Point;
+    [SerializeField] ButtonState _buttonState = ButtonState.Point;
     void Start()
     {
         _cubes = new CubeControl[_sizeX, _sizeY];
@@ -35,10 +36,10 @@ public class LifeControl : MonoBehaviour
             for (int a = 0; a < _sizeX; a++)
             {
                 _cubes[a, i] = Instantiate(cubePlefab);
-                _cubes[a, i].transform.position = new Vector3(a * 1.1f, i * 1.1f, 5);
+                _cubes[a, i].transform.position = new Vector3(a * 1.1f, i * 1.1f, 5) + transform.position;
                 _cubes[a, i].transform.SetParent(transform);
                 _cubes[a, i].SetPoint(a, i, this);
-                if (_randomMode)
+                if (_randomMode && !_startMode)
                 {
                     int r = Random.Range(0, 3);
                     if (r == 0)
@@ -49,7 +50,7 @@ public class LifeControl : MonoBehaviour
                 }
             }
         }
-        if (!_randomMode)
+        if (_startMode)
         {
             for (int k = 0; k < _sizeY; k++)
             {
@@ -111,7 +112,10 @@ public class LifeControl : MonoBehaviour
                 }
             }
         }
-        _lifeText.text = count.ToString();
+        if (_lifeText)
+        {
+            _lifeText.text = count.ToString();
+        }
     }
 
     void CheckAround(int checkPointX, int checkPointY)
