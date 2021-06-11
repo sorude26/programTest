@@ -164,4 +164,8 @@ public class Cell : EventSubscriber
         _cellButton.SetActive(true);
         _images[1].color = Color.clear;
     }
+    public override void OnDataSet()
+    {
+        Destroy(this.gameObject);
+    }
 }

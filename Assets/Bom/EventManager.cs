@@ -4,6 +4,7 @@ public class EventManager
     public static event Action OnGameEnd;
     public static event Action OnGameClear;
     public static event Action OnRestart;
+    public static event Action OnDataSet;
     public static void GameEnd()
     {
         OnGameEnd?.Invoke();
@@ -15,5 +16,9 @@ public class EventManager
     public static void Restart()
     {
         OnRestart?.Invoke();
+    }
+    public static void DataSet()
+    {
+        OnDataSet?.Invoke();
     }
 }

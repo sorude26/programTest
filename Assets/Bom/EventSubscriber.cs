@@ -9,15 +9,18 @@ public class EventSubscriber : MonoBehaviour
         EventManager.OnGameEnd += OnGameEnd;
         EventManager.OnGameClear += OnGameClear;
         EventManager.OnRestart += OnRestart;
+        EventManager.OnDataSet += OnDataSet;
     }
     private void OnDisable()
     {
         EventManager.OnGameEnd -= OnGameEnd;
         EventManager.OnGameClear -= OnGameClear;
         EventManager.OnRestart -= OnRestart;
+        EventManager.OnDataSet -= OnDataSet;
     }
 
     public virtual void OnGameEnd() { }
     public virtual void OnGameClear() { }
     public virtual void OnRestart() { }
+    public virtual void OnDataSet() { }
 }

@@ -108,6 +108,10 @@ public class ReversiTest : MonoBehaviour
             }
         }
     }
+    void AICheck()
+    {
+
+    }
     void PiceDataReset()
     {
         for (int z = 0; z < _size; z++)
@@ -216,6 +220,7 @@ public class ReversiTest : MonoBehaviour
         _retryButton.SetActive(true);
         _gameEnd = true;
     }
+
     void TouchPointSearch0()
     {
         for (int z = 0; z < _size; z++)
@@ -238,7 +243,6 @@ public class ReversiTest : MonoBehaviour
         }
     }
 
-
     int CheckNeighorPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
@@ -257,6 +261,58 @@ public class ReversiTest : MonoBehaviour
                Vector3Int aiPos = new Vector3Int(pointX, pointZ, count);
                _aIList.Add(aiPos);
             }
+            return count;
+        }
+        else if (piceColor != PiceColor.None && piceColor != checkColor)
+        {
+            return CheckNeighorPice(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, 1);
+        }
+        return 0;
+    }
+    void AIChangeColor()
+    {
+        
+    }
+    int AICheckPoint()
+    {
+        int count = 0;
+        for (int z = 0; z < _size; z++)
+        {
+            for (int x = 0; x < _size; x++)
+            {
+                if (_pice[x, z].PiceColor == TurnColor)
+                {
+                    PiceDir checkDir = new PiceDir(1, 0);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(0, 1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(1, 1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(1, -1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, 1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, -1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, 0);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(0, -1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                }
+            }
+        }
+        return count;
+    }
+    int AICheckNeighorPice(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
+    {
+        if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
+        {
+            return 0;
+        }
+        PiceColor piceColor = _pice[pointX, pointZ].NextPiceColor;
+        if (piceColor == PiceColor.None && count > 0)
+        {
+            Vector3Int aiPos = new Vector3Int(pointX, pointZ, count);
             return count;
         }
         else if (piceColor != PiceColor.None && piceColor != checkColor)
@@ -289,6 +345,32 @@ public class ReversiTest : MonoBehaviour
         ChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0, reversiPices[7]);
         StartCoroutine(ChangeColor());
     }
+    public void AIChangeColorNeighorAround(int pointX, int pointZ)
+    {
+        for (int z = 0; z < _size; z++)
+        {
+            for (int x = 0; x < _size; x++)
+            {
+                _pice[x, z].NextPiceColor = _pice[x, z].PiceColor;
+            }
+        }
+        PiceDir checkDir = new PiceDir(1, 0);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(0, 1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(1, 1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(1, -1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(-1, 1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(-1, -1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(-1, 0);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(0, -1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+    }
     bool ChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count, List<ReversiPice> pices)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
@@ -308,6 +390,28 @@ public class ReversiTest : MonoBehaviour
         if (change)
         {
             pices.Add(_pice[pointX, pointZ]);
+        }
+        return change;
+    }
+    bool AIChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
+    {
+        if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
+        {
+            return false;
+        }
+        PiceColor piceColor = _pice[pointX, pointZ].NextPiceColor;
+        if (piceColor == PiceColor.None || count > _size)
+        {
+            return false;
+        }
+        if (piceColor == checkColor)
+        {
+            return true;
+        }
+        bool change = AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, count++);
+        if (change)
+        {
+            _pice[pointX, pointZ].NextPiceColor = TurnColor;
         }
         return change;
     }

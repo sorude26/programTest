@@ -12,6 +12,11 @@ public class BomTest : MonoBehaviour
     [SerializeField] GameObject _bom;
     [SerializeField] GameObject _clear;
     [SerializeField] GameObject _restartButton;
+    [SerializeField] Transform _canvas;
+    [SerializeField] Text _sizeText;
+    [SerializeField] Text _bomText;
+    [SerializeField] GameObject _sizeBar;
+    [SerializeField] GameObject _bomBar;
     int[] _data;
     Cell[] _cells;
     bool _start;
@@ -22,8 +27,15 @@ public class BomTest : MonoBehaviour
     }
     void Start()
     {
+        StartSet();
+    }
+    void StartSet()
+    {
+        _sizeText.text = _size.ToString();
+        _bomText.text = _bomNumber.ToString();
         _restartButton.SetActive(false);
-        Transform canvas = GameObject.Find("Canvas").transform;
+        _sizeBar.SetActive(false);
+        _bomBar.SetActive(false);
         _data = new int[_size * _size];
         _cells = new Cell[_size * _size];
         for (int i = 0; i < _size; i++)
@@ -31,13 +43,13 @@ public class BomTest : MonoBehaviour
             for (int k = 0; k < _size; k++)
             {
                 var cell = Instantiate(_prefb);
-                cell.transform.SetParent(canvas);
-                cell.GetComponent<RectTransform>().localPosition = new Vector2(k * 101 - _size * 50, i * 101 - _size * 50 + 50);
+                cell.transform.SetParent(_canvas);
+                cell.GetComponent<RectTransform>().localPosition = new Vector2(k * 91 - _size * 50 + 50, i * 91 - _size * 50 + 100);
                 cell.CellState = CellState.None;
                 cell.SellID = i * _size + k;
                 _cells[i * _size + k] = cell;
             }
-        } 
+        }
     }
     void SetMine(int stratPos)
     {
@@ -227,6 +239,8 @@ public class BomTest : MonoBehaviour
             EventManager.GameClear();
             _restartButton.SetActive(true);
         }
+        _sizeBar.SetActive(false);
+        _bomBar.SetActive(false);
     }
     public void OnClickRestart()
     {
@@ -241,5 +255,37 @@ public class BomTest : MonoBehaviour
         {
             _cells[v].CellState = CellState.None;
         }
+    }
+    public void OnClickSizeChange()
+    {
+        _sizeBar.SetActive(true);
+        _bomBar.SetActive(false);
+    }
+    public void OnClickSizeChange(int size)
+    {
+        _size = size;
+        _sizeBar.SetActive(false);
+        DataChange();
+    }
+    public void OnClickBomChange()
+    {
+        _sizeBar.SetActive(false);
+        _bomBar.SetActive(true);
+    }
+    public void OnClickBomChange(int bom)
+    {
+        _bomNumber = bom;
+        _bomBar.SetActive(false);
+        DataChange();
+    }
+    void DataChange()
+    {
+        _start = false;
+        ExplosionBom = false;
+        _clear.SetActive(false);
+        _bom.SetActive(false);
+        _restartButton.SetActive(false);
+        EventManager.DataSet();
+        StartSet();
     }
 }
