@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: e765490f1a9fa9d489c1c7cebc912e6e
+  - enabled: 1
+    path: Assets/Reversi/Reversi.unity
+    guid: d0bd9b6a2aa0997498e51f24e47b37da
+  - enabled: 1
+    path: Assets/Bom/BomTest.unity
+    guid: d23079712bca95044ae54a7f73916463
+  - enabled: 1
+    path: Assets/Bingo/Bingo.unity
+    guid: 01f6806b8a4b3b943b2cbb74df77c008
+  - enabled: 1
+    path: Assets/Life/life2D.unity
+    guid: 3782ca73cd9994042a8793e477aa8472
   m_configObjects: {}

@@ -31,7 +31,7 @@ public class RainbowColor : MonoBehaviour
                 _g = 1;
             }
         }
-        if (_g == 1 && _r > 0 && _b == 0)
+        else if (_g == 1 && _r > 0 && _b == 0)
         {
             _r -= _colorSpeed * Time.deltaTime;
             if (_r <= 0)
@@ -39,7 +39,7 @@ public class RainbowColor : MonoBehaviour
                 _r = 0;
             }
         }
-        if (_g == 1 && _r == 0 && _b < 1)
+        else if (_g == 1 && _r == 0 && _b < 1)
         {
             _b += _colorSpeed * Time.deltaTime;
             if (_b >= 1)
@@ -47,7 +47,7 @@ public class RainbowColor : MonoBehaviour
                 _b = 1;
             }
         }
-        if (_g > 0 && _r == 0 && _b == 1)
+        else if (_g > 0 && _r == 0 && _b == 1)
         {
             _g -= _colorSpeed * Time.deltaTime;
             if (_g <= 0)
@@ -55,7 +55,7 @@ public class RainbowColor : MonoBehaviour
                 _g = 0;
             }
         }
-        if (_b == 1 && _g == 0 && _r < 1)
+        else if (_b == 1 && _g == 0 && _r < 1)
         {
             _r += _colorSpeed * Time.deltaTime;
             if (_r >= 1)
@@ -63,7 +63,7 @@ public class RainbowColor : MonoBehaviour
                 _r = 1;
             }
         }
-        if (_b > 0 && _g == 0 && _r == 1)
+        else if (_b > 0 && _g == 0 && _r == 1)
         {
             _b -= _colorSpeed * Time.deltaTime;
             if (_b <= 0)
