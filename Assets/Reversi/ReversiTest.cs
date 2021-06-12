@@ -101,8 +101,8 @@ public class ReversiTest : MonoBehaviour
             _aiTimer -= Time.deltaTime;
             if (_aiTimer <= 0)
             {
-                //int r = Random.Range(0, _aIList.Count);
-                //_pice[_aIList[r].x, _aIList[r].y].AITouch();
+                // int r = Random.Range(0, _aIList.Count);
+                // _pice[_aIList[r].x, _aIList[r].y].AITouch();
                 AICheck2();
                 _myTurn = true;
                 _aiCheckEnd = false;
@@ -122,7 +122,6 @@ public class ReversiTest : MonoBehaviour
                 c = a;
                 r = i;
             }
-            //Debug.Log(a);
         }
         _pice[_aIList[r].x, _aIList[r].y].AITouch();
     }
