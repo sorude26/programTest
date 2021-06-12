@@ -23,6 +23,7 @@ public class ReversiTest : MonoBehaviour
     bool _pass = false;
     int[,] _picelData = new int[_size, _size];
     List<Vector3Int> _aIList = new List<Vector3Int>();
+    List<Vector3Int> _aIList2 = new List<Vector3Int>();
     public PiceColor TurnColor { get; private set; } = PiceColor.None;
     public struct PiceDir
     {
@@ -102,7 +103,7 @@ public class ReversiTest : MonoBehaviour
             {
                 //int r = Random.Range(0, _aIList.Count);
                 //_pice[_aIList[r].x, _aIList[r].y].AITouch();
-                AICheck();
+                AICheck2();
                 _myTurn = true;
                 _aiCheckEnd = false;
                 _changeEnd = false;
@@ -122,6 +123,21 @@ public class ReversiTest : MonoBehaviour
                 r = i;
             }
             //Debug.Log(a);
+        }
+        _pice[_aIList[r].x, _aIList[r].y].AITouch();
+    }
+    void AICheck2()
+    {
+        int r = 0;
+        int c = 0;
+        for (int i = 0; i < _aIList.Count; i++)
+        {
+            int a = AIChangeColorNeighorAroundX(_aIList[i].x, _aIList[i].y);
+            if (a > c)
+            {
+                c = a;
+                r = i;
+            }
         }
         _pice[_aIList[r].x, _aIList[r].y].AITouch();
     }
@@ -282,6 +298,25 @@ public class ReversiTest : MonoBehaviour
         }
         return 0;
     }
+    int AICheckNeighorPice2(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
+    {
+        if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
+        {
+            return 0;
+        }
+        PiceColor piceColor = _pice[pointX, pointZ].pNextPiceColor;
+        if (piceColor == PiceColor.None && count > 0)
+        {
+            Vector3Int aiPos = new Vector3Int(pointX, pointZ, count);
+            _aIList2.Add(aiPos);
+            return count;
+        }
+        else if (piceColor != PiceColor.None && piceColor != checkColor)
+        {
+            return AICheckNeighorPice2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, 1);
+        }
+        return 0;
+    }
     int AICheckPoint()
     {
         int count = 0;
@@ -290,6 +325,36 @@ public class ReversiTest : MonoBehaviour
             for (int x = 0; x < _size; x++)
             {
                 if (_pice[x, z].NextPiceColor == TurnColor)
+                {
+                    PiceDir checkDir = new PiceDir(1, 0);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(0, 1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(1, 1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(1, -1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, 1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, -1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, 0);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                    checkDir = new PiceDir(0, -1);
+                    if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
+                }
+            }
+        }
+        return count;
+    }
+    int AICheckPoint2()
+    {
+        int count = 0;
+        for (int z = 0; z < _size; z++)
+        {
+            for (int x = 0; x < _size; x++)
+            {
+                if (_pice[x, z].pNextPiceColor == PiceColor.White)
                 {
                     PiceDir checkDir = new PiceDir(1, 0);
                     if (AICheckNeighorPice(x + checkDir.X, z + checkDir.Z, checkDir, TurnColor, 0) > 0) { count++; }
@@ -381,6 +446,98 @@ public class ReversiTest : MonoBehaviour
         AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
         return AICheckPoint();
     }
+    int AIChangeColorNeighorAroundX(int pointX, int pointZ)
+    {
+        for (int z = 0; z < _size; z++)
+        {
+            for (int x = 0; x < _size; x++)
+            {
+                _pice[x, z].NextPiceColor = _pice[x, z].PiceColor;
+            }
+        }
+        _pice[pointX, pointZ].NextPiceColor = TurnColor;
+        PiceDir checkDir = new PiceDir(1, 0);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(0, 1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(1, 1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(1, -1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(-1, 1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(-1, -1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(-1, 0);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        checkDir = new PiceDir(0, -1);
+        AIChangeColorNeighor(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, TurnColor, 0);
+        int count = 0;
+        _aIList2.Clear();
+        for (int z = 0; z < _size; z++)
+        {
+            for (int x = 0; x < _size; x++)
+            {
+                if (_pice[x, z].pNextPiceColor == PiceColor.White)
+                {
+                    checkDir = new PiceDir(1, 0);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                    checkDir = new PiceDir(0, 1);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                    checkDir = new PiceDir(1, 1);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                    checkDir = new PiceDir(1, -1);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, 1);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, -1);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                    checkDir = new PiceDir(-1, 0);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                    checkDir = new PiceDir(0, -1);
+                    if (AICheckNeighorPice2(x + checkDir.X, z + checkDir.Z, checkDir, PiceColor.White, 0) > 0) { count++; }
+                }
+            }
+        }
+        int c = _size * _size;
+        for (int i = 0; i < _aIList2.Count; i++)
+        {
+            int a = AIChangeColorNeighorAround2(_aIList2[i].x, _aIList2[i].y);
+            if (a < c)
+            {
+                c = a;
+            }
+        }
+        return c;
+    }
+    int AIChangeColorNeighorAround2(int pointX, int pointZ)
+    {
+        for (int z = 0; z < _size; z++)
+        {
+            for (int x = 0; x < _size; x++)
+            {
+                _pice[x, z].pNextPiceColor = _pice[x, z].NextPiceColor;
+            }
+        }
+        _pice[pointX, pointZ].pNextPiceColor = PiceColor.White;
+        PiceDir checkDir = new PiceDir(1, 0);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        checkDir = new PiceDir(0, 1);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        checkDir = new PiceDir(1, 1);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        checkDir = new PiceDir(1, -1);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        checkDir = new PiceDir(-1, 1);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        checkDir = new PiceDir(-1, -1);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        checkDir = new PiceDir(-1, 0);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        checkDir = new PiceDir(0, -1);
+        AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, PiceColor.White, 0);
+        return AICheckPoint2();
+    }
     bool ChangeColorNeighor(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count, List<ReversiPice> pices)
     {
         if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
@@ -422,6 +579,28 @@ public class ReversiTest : MonoBehaviour
         if (change)
         {
             _pice[pointX, pointZ].NextPiceColor = TurnColor;
+        }
+        return change;
+    }
+    bool AIChangeColorNeighor2(int pointX, int pointZ, PiceDir checkDir, PiceColor checkColor, int count)
+    {
+        if (pointX < 0 || pointX >= _size || pointZ < 0 || pointZ >= _size)
+        {
+            return false;
+        }
+        PiceColor piceColor = _pice[pointX, pointZ].pNextPiceColor;
+        if (piceColor == PiceColor.None || count > _size)
+        {
+            return false;
+        }
+        if (piceColor == checkColor)
+        {
+            return true;
+        }
+        bool change = AIChangeColorNeighor2(pointX + checkDir.X, pointZ + checkDir.Z, checkDir, checkColor, count++);
+        if (change)
+        {
+            _pice[pointX, pointZ].pNextPiceColor = PiceColor.White;
         }
         return change;
     }
