@@ -22,6 +22,8 @@ public class ReversiPice : EventSubscriber
     bool _moveNow = default;
     [SerializeField] float _changeSpeed = 3f;
     public PiceColor NextPiceColor;
+    public PiceColor pNextPiceColor;
+    public PiceColor lNextPiceColor;
     public void SetReversiMaster(ReversiTest instanse,int posX,int posY)
     {
         _instanse = instanse;
