@@ -27,6 +27,12 @@ public class Cell : EventSubscriber
     private bool _guard = false;
     public int SellID { get; set; }
     public bool Check { get; private set; }
+    private System.Action<int> _opened;
+    public event System.Action<int> Opened
+    {
+        add { _opened += value; }
+        remove { _opened -= value; }
+    }
     public CellState CellState
     {
         get => _cellState;
@@ -36,6 +42,7 @@ public class Cell : EventSubscriber
             CellStateChange();
         }
     }
+    
     private void OnValidate()
     {
         CellStateChange();
@@ -104,7 +111,7 @@ public class Cell : EventSubscriber
         if (_cellState == CellState.None && !Check)
         {
             Check = true;
-            BomTest.Instance.AroundCheck(SellID);
+            _opened?.Invoke(SellID);
         }
         Check = true;
         BomTest.Instance.ClearCheck();
@@ -119,7 +126,7 @@ public class Cell : EventSubscriber
         if (_cellState == CellState.None && !Check)
         {
             Check = true;
-            BomTest.Instance.AroundCheck(SellID);
+            _opened?.Invoke(SellID);
         }
         else if (_cellState == CellState.Mine)
         {

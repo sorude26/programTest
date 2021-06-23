@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class RainbowColor : MonoBehaviour
 {
-    [SerializeField] float _colorSpeed = 1f;
     [SerializeField] Image _image;
     [SerializeField] Text _text;
     [SerializeField] Renderer _renderer;
+    [SerializeField] Outline _outline;
     [SerializeField] Light _light;
+    [SerializeField] float _colorSpeed = 1f;
     [SerializeField] float _a = 0.5f;
     [SerializeField] Vector3Int _startColor = new Vector3Int(1, 0, 0);
     float _r = 1;
@@ -82,6 +83,10 @@ public class RainbowColor : MonoBehaviour
         if (_renderer)
         {
             _renderer.material.color = new Color(_r, _g, _b, _a);
+        }
+        if (_outline)
+        {
+            _outline.effectColor = new Color(_r, _g, _b, _a);
         }
         if (_light)
         {

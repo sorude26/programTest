@@ -47,6 +47,7 @@ public class BomTest : MonoBehaviour
                 cell.GetComponent<RectTransform>().localPosition = new Vector2(k * 91 - _size * 50 + 50, i * 91 - _size * 50 + 100);
                 cell.CellState = CellState.None;
                 cell.SellID = i * _size + k;
+                cell.Opened += AroundCheck;
                 _cells[i * _size + k] = cell;
             }
         }
