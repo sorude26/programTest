@@ -12,6 +12,7 @@ public class ReversiPice : EventSubscriber
 {
     [SerializeField] GameObject _pice;
     [SerializeField] GameObject _touchPanel;
+    [SerializeField] GameObject _effect;
     public PiceColor PiceColor { get; private set; } = PiceColor.None;
     public bool TouchMode { get; private set; } = false;
     int _posX = 0;
@@ -33,6 +34,7 @@ public class ReversiPice : EventSubscriber
         TouchMode = false;
         _pice.SetActive(false);
         PiceColor = PiceColor.None;
+        _effect.SetActive(false);
     }
     public void ChangeWhite()
     {
@@ -72,6 +74,7 @@ public class ReversiPice : EventSubscriber
             _moveNow = true;
             _startMove = true;
         }
+        _effect.SetActive(true);
     }
     public void TouchOK()
     {
@@ -135,6 +138,7 @@ public class ReversiPice : EventSubscriber
             {
                 _movePos = 0;
                 _moveNow = false;
+                _effect.SetActive(false);
             }
             _pice.transform.localPosition = new Vector3(0, 0.08f + _movePos, 0);
             if (PiceColor == PiceColor.Black)

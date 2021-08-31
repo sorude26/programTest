@@ -173,11 +173,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 9
   _image: {fileID: 51732585}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _particle: {fileID: 0}
+  _colorSpeed: 9
   _a: 0.8
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &51732585
@@ -324,11 +326,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 0}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 148002521}
+  _particle: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!1 &270557432
@@ -381,11 +385,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 3
   _image: {fileID: 270557435}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _particle: {fileID: 0}
+  _colorSpeed: 3
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &270557435
@@ -775,11 +781,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1119041614}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _particle: {fileID: 0}
+  _colorSpeed: 1
   _a: 0.6
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!1 &1195913211
@@ -870,11 +878,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1195913213}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _particle: {fileID: 0}
+  _colorSpeed: 1
   _a: 0.3
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!1 &1392889490
@@ -1155,11 +1165,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 0}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 1421491891}
+  _particle: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 0, y: 0, z: 1}
 --- !u!1 &1444585580
@@ -1268,11 +1280,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 0}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 1444585581}
+  _particle: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 1}
 --- !u!1001 &1445380865
@@ -1643,11 +1657,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 9
   _image: {fileID: 0}
   _text: {fileID: 1560630415}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _particle: {fileID: 0}
+  _colorSpeed: 9
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!1 &1692197582
@@ -1799,11 +1815,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 11
   _image: {fileID: 0}
   _text: {fileID: 1740176270}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _particle: {fileID: 0}
+  _colorSpeed: 11
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &1740176270
@@ -2131,11 +2149,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 0}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 2050195722}
+  _particle: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 1, z: 0}
 --- !u!1 &2052397664

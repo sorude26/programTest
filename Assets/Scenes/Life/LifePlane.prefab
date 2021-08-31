@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 8549033094078606622}
   - component: {fileID: 6265912855549879044}
   m_Layer: 0
-  m_Name: TestPlane
+  m_Name: LifePlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

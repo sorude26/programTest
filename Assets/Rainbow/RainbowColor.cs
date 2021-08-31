@@ -10,6 +10,7 @@ public class RainbowColor : MonoBehaviour
     [SerializeField] Renderer _renderer;
     [SerializeField] Outline _outline;
     [SerializeField] Light _light;
+    [SerializeField] ParticleSystem _particle;
     [SerializeField] float _colorSpeed = 1f;
     [SerializeField] float _a = 0.5f;
     [SerializeField] Vector3Int _startColor = new Vector3Int(1, 0, 0);
@@ -91,6 +92,10 @@ public class RainbowColor : MonoBehaviour
         if (_light)
         {
             _light.color = new Color(_r, _g, _b, _a);
+        }
+        if (_particle)
+        {
+            _particle.startColor = new Color(_r, _g, _b, _a);
         }
     }
 }

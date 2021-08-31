@@ -6,9 +6,9 @@ public class Rotation : MonoBehaviour
 {
     [SerializeField] Vector3 _rotationAngle;
     [SerializeField] float _rotationSpeed = 1f;
-    
-    void Update()
+
+    private void FixedUpdate()
     {
-        transform.Rotate(_rotationAngle * _rotationSpeed);
+        transform.Rotate(_rotationAngle.normalized * _rotationSpeed);
     }
 }

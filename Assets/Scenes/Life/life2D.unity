@@ -358,11 +358,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 330830914}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 0.5
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &330830914
@@ -643,11 +644,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 0}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 434646035}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 0, y: 0, z: 1}
 --- !u!1 &442256810
@@ -1210,11 +1212,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 600537859}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 0.5
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &600537859
@@ -1676,11 +1679,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 5
   _image: {fileID: 0}
   _text: {fileID: 968189985}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 5
   _a: 0.5
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &968189984
@@ -1790,11 +1794,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1113674162}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &1113674162
@@ -2020,11 +2025,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1402940274}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 0.5
   _startColor: {x: 0, y: 0, z: 1}
 --- !u!114 &1402940274
@@ -2115,11 +2121,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1426967471}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &1426967471
@@ -2210,11 +2217,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1441877565}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 0.5
   _startColor: {x: 1, y: 0, z: 1}
 --- !u!114 &1441877565
@@ -2305,11 +2313,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1491738520}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &1491738520
@@ -2400,11 +2409,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1582840058}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &1582840058
@@ -2495,11 +2505,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 1635680196}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 0.5
   _startColor: {x: 0, y: 1, z: 0}
 --- !u!114 &1635680196
@@ -2684,11 +2695,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 5
   _image: {fileID: 0}
   _text: {fileID: 1921312173}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 5
   _a: 0.5
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &1921312172
@@ -3143,11 +3155,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 2055615984}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &2055615984
@@ -3238,11 +3251,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7128a8b3008f72428ef94a9dae31c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorSpeed: 1
   _image: {fileID: 2099970907}
   _text: {fileID: 0}
   _renderer: {fileID: 0}
+  _outline: {fileID: 0}
   _light: {fileID: 0}
+  _colorSpeed: 1
   _a: 1
   _startColor: {x: 1, y: 0, z: 0}
 --- !u!114 &2099970907
